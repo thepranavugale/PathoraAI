@@ -1,0 +1,179 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Dashboard | Pathora AI</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<nav class="navbar">
+    <a href="/" class="logo">✦ Pathora <span>AI</span></a>
+    <a href="/" class="nav-btn">New Analysis</a>
+</nav>
+
+<main class="dashboard">
+
+    <div class="dashboard-header">
+        <span class="section-tag">YOUR PERSONAL CAREER SPACE</span>
+        <h1>Career <span>Dashboard</span></h1>
+        <p>Explore your career insights and track your skill development.</p>
+    </div>
+
+    {% if analysis %}
+
+    <section class="dashboard-grid">
+
+        <div class="dashboard-card">
+            <span class="dashboard-label">PREDICTED CAREER</span>
+            <h2>{{ analysis.career_title }}</h2>
+            <p>{{ analysis.prediction }}</p>
+        </div>
+
+        <div class="dashboard-card">
+            <span class="dashboard-label">OVERALL SKILL SCORE</span>
+            <h2 class="dashboard-number">
+                {{ analysis.average_score }}%
+            </h2>
+            <p>Based on your submitted skill inputs</p>
+        </div>
+
+        <div class="dashboard-card">
+            <span class="dashboard-label">ASSESSED STRENGTHS</span>
+            <h2 class="dashboard-number">
+                {{ analysis.strengths|length }}
+            </h2>
+            <p>Skills scoring 70 or above</p>
+        </div>
+
+        <div class="dashboard-card">
+            <span class="dashboard-label">SKILLS TO IMPROVE</span>
+            <h2 class="dashboard-number">
+                {{ analysis.improvements|length }}
+            </h2>
+            <p>Areas to focus on next</p>
+        </div>
+
+    </section>
+
+    <section class="dashboard-panel">
+
+        <div class="section-title">
+            <span class="section-tag">CAREER DISCOVERY</span>
+            <h2>Top Career Recommendations</h2>
+        </div>
+
+        {% for career in analysis.top_careers %}
+
+        <div class="dashboard-bar-item">
+            <div class="dashboard-bar-heading">
+                <strong>{{ career.name }}</strong>
+                <span>{{ "%.2f"|format(career.score) }}%</span>
+            </div>
+
+            <div class="progress">
+                <div class="progress-fill"
+                     data-score="{{ career.score }}"></div>
+            </div>
+        </div>
+
+        {% endfor %}
+
+        <p class="score-note">
+            Model scores are not calibrated probabilities or guarantees
+            of career suitability.
+        </p>
+
+    </section>
+
+    <section class="dashboard-panel">
+
+        <div class="section-title">
+            <span class="section-tag">SKILL DEVELOPMENT</span>
+            <h2>Your Skill Overview</h2>
+        </div>
+
+        {% for skill in analysis.strengths %}
+
+        <div class="dashboard-skill">
+            <div class="dashboard-bar-heading">
+                <strong>{{ skill.name }}</strong>
+                <span>{{ skill.score }}%</span>
+            </div>
+            <div class="progress">
+                <div class="progress-fill"
+                     data-score="{{ skill.score }}"></div>
+            </div>
+        </div>
+
+        {% endfor %}
+
+        {% for skill in analysis.improvements %}
+
+        <div class="dashboard-skill">
+            <div class="dashboard-bar-heading">
+                <strong>{{ skill.name }}</strong>
+                <span>{{ skill.score }}%</span>
+            </div>
+            <div class="progress">
+                <div class="progress-fill"
+                     data-score="{{ skill.score }}"></div>
+            </div>
+            <p class="dashboard-tip">{{ skill.suggestion }}</p>
+        </div>
+
+        {% endfor %}
+
+    </section>
+
+    <section class="dashboard-panel">
+        <div class="section-title">
+            <span class="section-tag">YOUR NEXT STEP</span>
+            <h2>Career Development</h2>
+        </div>
+
+        <div class="dashboard-actions">
+            <a href="{{ url_for('result_page') }}"
+               class="primary-btn">
+                View Full Career Analysis →
+            </a>
+
+            <a href="{{ url_for('download_report') }}"
+               class="secondary-btn">
+                ↓ Download Career Report PDF
+            </a>
+
+            <a href="{{ url_for('roadmap', career=analysis.prediction) }}"
+               class="secondary-btn">
+                Explore Learning Roadmap →
+            </a>
+        </div>
+    </section>
+
+    {% else %}
+
+    <section class="dashboard-panel empty-dashboard">
+        <h2>No Career Analysis Yet</h2>
+        <p>Complete your career assessment to see your dashboard.</p>
+        <a href="/" class="primary-btn">Start Career Assessment →</a>
+    </section>
+
+    {% endif %}
+
+</main>
+
+<footer>
+    <a href="/" class="logo">✦ Pathora <span>AI</span></a>
+    <p>Empowering Futures Through Artificial Intelligence.</p>
+    <small>© 2026 Pathora AI. Educational Project.</small>
+</footer>
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+</html>

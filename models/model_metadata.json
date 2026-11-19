@@ -1,0 +1,20 @@
+{
+    "model_name": "Decision Tree Classifier",
+    "accuracy": 0.9167,
+    "features": [
+        "math_marks",
+        "programming_marks",
+        "communication",
+        "logical_reasoning",
+        "interest_coding",
+        "interest_management"
+    ],
+    "classes": [
+        "AI",
+        "Data Science",
+        "HR",
+        "Management"
+    ],
+    "training_records": 960,
+    "testing_records": 240
+}

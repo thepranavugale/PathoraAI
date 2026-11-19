@@ -1,0 +1,173 @@
+<!-- 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ career }} Roadmap | Pathora AI</title>
+    <<link rel="stylesheet" href="/css/style.css">>
+</head>
+<body>
+
+<nav class="navbar">
+    <a href="/" class="logo">✦ Pathora <span>AI</span></a>
+    <a href="/" class="nav-btn">Home</a>
+</nav>
+
+<section class="result-section">
+
+    <div class="hero-badge">YOUR PERSONALIZED LEARNING JOURNEY</div>
+
+    <h1>Career <span>Roadmap</span></h1>
+
+    <div class="result-card">
+        <h2>{{ career_info.title }}</h2>
+        <p>{{ career_info.description }}</p>
+    </div>
+
+    <h2 class="sub-heading">Your Learning Journey</h2>
+
+    <div class="roadmap-list">
+        {% for step in career_info.roadmap %}
+        <div class="roadmap-step">
+            <div class="step-number">{{ loop.index }}</div>
+            <strong>{{ step }}</strong>
+        </div>
+        {% endfor %}
+    </div>
+
+    <a href="/" class="primary-btn">Explore Another Career →</a>
+
+</section>
+
+</body>
+</html> -->
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Roadmap | Pathora AI</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<nav class="navbar">
+    <a href="/" class="logo">✦ Pathora <span>AI</span></a>
+    <a href="{{ url_for('dashboard') }}" class="nav-btn">Dashboard →</a>
+</nav>
+
+<main class="result-section">
+
+    <div class="hero-badge">✧ YOUR PERSONALIZED LEARNING PATH</div>
+
+    <h1>Your Career <span>Roadmap</span></h1>
+
+    <p class="page-description">
+        Follow these learning milestones to prepare for your career.
+    </p>
+
+    <section class="result-card main-result">
+
+        <p class="muted">YOUR SELECTED CAREER</p>
+
+        <h2>{{ career_info.title }}</h2>
+
+        <p>{{ career_info.description }}</p>
+
+    </section>
+
+    <section class="result-card">
+
+        <div class="section-title">
+            <span class="section-tag">STEP-BY-STEP LEARNING</span>
+            <h2>Your Learning Roadmap</h2>
+        </div>
+
+        {% if career_info.roadmap %}
+
+            <div class="roadmap-list">
+
+                {% for step in career_info.roadmap %}
+
+                    <div class="career-row roadmap-step">
+
+                        <div class="career-info">
+                            <strong>Step {{ loop.index }}</strong>
+                            <p>{{ step }}</p>
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% else %}
+
+            <p class="muted">
+                No roadmap steps are currently available for this career.
+            </p>
+
+        {% endif %}
+
+    </section>
+
+    <section class="result-card">
+
+        <h2>Skills You Should Develop</h2>
+
+        <div class="tags">
+            {% for skill in career_info.skills %}
+                <span>{{ skill }}</span>
+            {% endfor %}
+        </div>
+
+        <h3 class="tools-heading">Recommended Tools</h3>
+
+        <div class="tags">
+            {% for tool in career_info.tools %}
+                <span>{{ tool }}</span>
+            {% endfor %}
+        </div>
+
+    </section>
+
+    <div class="result-actions">
+
+        <a href="{{ url_for('home') }}" class="secondary-btn">
+            ← Home
+        </a>
+
+        <a href="{{ url_for('result_page') }}" class="primary-btn">
+            View Career Analysis →
+        </a>
+
+        <a href="{{ url_for('dashboard') }}" class="secondary-btn">
+            View Dashboard →
+        </a>
+
+    </div>
+
+</main>
+
+<footer>
+    <a href="/" class="logo">✦ Pathora <span>AI</span></a>
+    <p>Empowering Futures Through Artificial Intelligence.</p>
+    <small>© 2026 Pathora AI. Educational Project.</small>
+</footer>
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+</html>

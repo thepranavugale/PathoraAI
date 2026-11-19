@@ -1,0 +1,942 @@
+<!-- 
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description" content="Your personalized AI-powered career prediction and skill gap analysis by Pathora AI.">
+
+    <title>Career Results | Pathora AI</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+    <!-- =========================
+         NAVIGATION
+    ========================== -->
+
+    <nav class="navbar">
+
+        <a href="/" class="logo">
+            ✦ Pathora <span>AI</span>
+        </a>
+
+        <a href="/" class="nav-btn">
+            ← Try Again
+        </a>
+
+    </nav>
+
+
+    <!-- =========================
+         MAIN RESULT SECTION
+    ========================== -->
+
+    <main class="result-section">
+
+        <div class="hero-badge">
+            ✧ YOUR AI CAREER ANALYSIS
+        </div>
+
+        <h1>
+            Your Recommended <span>Career</span>
+        </h1>
+
+        <p class="page-description">
+            Your career insights are ready. Explore your prediction,
+            strengths and opportunities for improvement.
+        </p>
+
+
+        <!-- =========================
+             PREDICTED CAREER
+        ========================== -->
+
+        <section class="result-card main-result">
+
+            <div class="result-icon">✦</div>
+
+            <p class="muted result-label">
+                YOUR TOP PREDICTED CAREER
+            </p>
+
+            <h2>{{ career_info.title }}</h2>
+
+            <p class="career-description">
+                {{ career_info.description }}
+            </p>
+
+            <a href="{{ url_for('roadmap', career=prediction) }}"
+               class="primary-btn">
+
+                Explore Career Roadmap →
+
+            </a>
+
+        </section>
+
+
+        <!-- =========================
+             TOP 3 CAREER RECOMMENDATIONS
+        ========================== -->
+
+        <section class="recommendations-section">
+
+            <div class="section-title">
+
+                <span class="section-tag">
+                    CAREER DISCOVERY
+                </span>
+
+                <h2 class="sub-heading">
+                    Top Career Recommendations
+                </h2>
+
+                <p>
+                    Explore the career categories suggested by your
+                    Machine Learning model.
+                </p>
+
+            </div>
+
+
+            <div class="recommendations-container">
+
+                {% if top_careers %}
+
+                    {% for career in top_careers %}
+
+                        <div class="career-row">
+
+                            <div class="career-info">
+
+                                <strong>
+                                    {{ career.name }}
+                                </strong>
+
+                                <span>
+                                    {{ "%.2f"|format(career.score) }}% model score
+                                </span>
+
+                            </div>
+
+                            <div class="progress">
+
+                                <div class="progress-fill"
+                                     data-score="{{ career.score }}">
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    {% endfor %}
+
+                {% else %}
+
+                    <div class="empty-state">
+                        No career recommendations available.
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+            <p class="score-note">
+                Note: Model scores are based on Decision Tree
+                prediction outputs and are not calibrated probabilities
+                or guaranteed career suitability percentages.
+            </p>
+
+        </section>
+
+
+        <!-- =========================
+             SMART SKILL GAP ANALYSIS
+        ========================== -->
+
+        <section class="result-card skills-card">
+
+            <div class="section-title">
+
+                <span class="section-tag">
+                    PERSONALIZED SKILL INSIGHTS
+                </span>
+
+                <h2>Smart Skill Gap Analysis</h2>
+
+                <p>
+                    Understand your current skill levels and discover
+                    areas where you can improve.
+                </p>
+
+            </div>
+
+
+            <!-- Overall Skill Score -->
+
+            <div class="average-score">
+
+                <div>
+                    <span>Overall Assessed Skill Score</span>
+
+                    <p>
+                        Based on your submitted skill inputs
+                    </p>
+                </div>
+
+                <strong>
+                    {{ skill_analysis.average_score }}%
+                </strong>
+
+            </div>
+
+            <div class="progress overall-progress">
+
+                <div class="progress-fill"
+                     data-score="{{ skill_analysis.average_score }}">
+                </div>
+
+            </div>
+
+
+            <!-- Strengths -->
+
+            <div class="skill-category strengths-category">
+
+                <h3>
+                    <span class="category-icon">✦</span>
+                    Your Strengths
+                </h3>
+
+                <p class="category-description">
+                    Skills where your submitted scores are 70 or above.
+                </p>
+
+                {% if skill_analysis.strengths %}
+
+                    {% for skill in skill_analysis.strengths %}
+
+                        <div class="skill-item">
+
+                            <div class="skill-info">
+
+                                <strong>
+                                    {{ skill.name }}
+                                </strong>
+
+                                <span>
+                                    {{ skill.score }}%
+                                </span>
+
+                            </div>
+
+                            <div class="progress">
+
+                                <div class="progress-fill"
+                                     data-score="{{ skill.score }}">
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    {% endfor %}
+
+                {% else %}
+
+                    <div class="empty-state">
+                        Keep practising to develop your strengths.
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- Areas to Improve -->
+
+            <div class="skill-category improvements-category">
+
+                <h3>
+                    <span class="category-icon">↗</span>
+                    Skills to Improve
+                </h3>
+
+                <p class="category-description">
+                    Focus on these areas to strengthen your career profile.
+                </p>
+
+                {% if skill_analysis.improvements %}
+
+                    {% for skill in skill_analysis.improvements %}
+
+                        <div class="improvement-item">
+
+                            <div class="skill-info">
+
+                                <strong>
+                                    {{ skill.name }}
+                                </strong>
+
+                                <span>
+                                    {{ skill.score }}%
+                                </span>
+
+                            </div>
+
+                            <div class="progress">
+
+                                <div class="progress-fill"
+                                     data-score="{{ skill.score }}">
+                                </div>
+
+                            </div>
+
+                            <div class="skill-suggestion">
+
+                                <span>Improvement Tip</span>
+
+                                <p>
+                                    {{ skill.suggestion }}
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    {% endfor %}
+
+                {% else %}
+
+                    <div class="empty-state">
+                        Great work! All assessed skills scored 70 or above.
+                        Continue developing your abilities.
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             RECOMMENDED CAREER SKILLS
+        ========================== -->
+
+        <section class="result-card skills-card">
+
+            <div class="section-title">
+
+                <span class="section-tag">
+                    CAREER DEVELOPMENT
+                </span>
+
+                <h2>Recommended Career Skills</h2>
+
+                <p>
+                    Develop these skills to prepare for your predicted career.
+                </p>
+
+            </div>
+
+            <div class="tags">
+
+                {% for skill in career_info.skills %}
+
+                    <span>{{ skill }}</span>
+
+                {% endfor %}
+
+            </div>
+
+
+            <!-- Recommended Tools -->
+
+            <h3 class="tools-heading">
+                Recommended Tools & Technologies
+            </h3>
+
+            <div class="tags">
+
+                {% for tool in career_info.tools %}
+
+                    <span>{{ tool }}</span>
+
+                {% endfor %}
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             CAREER ROADMAP CTA
+        ========================== -->
+
+        <section class="roadmap-cta">
+
+            <div class="roadmap-icon">
+                ✧
+            </div>
+
+            <h2>
+                Ready to Build Your Future?
+            </h2>
+
+            <p>
+                Follow your personalized career learning roadmap
+                and take the next step towards your goals.
+            </p>
+
+            <a href="{{ url_for('roadmap', career=prediction) }}"
+               class="primary-btn">
+
+                View My Career Roadmap →
+
+            </a>
+
+        </section>
+
+
+        <!-- =========================
+             DISCLAIMER
+        ========================== -->
+
+        <div class="disclaimer">
+
+            <strong>Important Note</strong>
+
+            <p>
+                Pathora AI provides educational career recommendations
+                based on a Machine Learning model. These results are
+                indicative only and should not be considered a
+                professional career assessment or a guarantee of
+                future success.
+            </p>
+
+        </div>
+
+
+        <!-- =========================
+             ACTION BUTTONS
+        ========================== -->
+
+        <div class="result-actions">
+
+            <a href="/" class="secondary-btn">
+                ← Back to Home
+            </a>
+
+            <a href="{{ url_for('dashboard') }}" class="primary-btn">
+                View Analytics Dashboard →
+            </a>
+
+            <a href="{{ url_for('download_report') }}"
+                class="secondary-btn">
+                ↓ Download PDF Report
+            </a>
+
+        </div>
+
+    </main>
+
+
+    <!-- =========================
+         FOOTER
+    ========================== -->
+
+    <footer>
+
+        <a href="/" class="logo">
+            ✦ Pathora <span>AI</span>
+        </a>
+
+        <p>
+            Empowering Futures Through Artificial Intelligence.
+        </p>
+
+        <small>
+            © 2026 Pathora AI. Educational Project.
+        </small>
+
+    </footer>
+
+
+    <script src="/js/script.js"></script>
+
+</body>
+</html> -->
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+          content="Your personalized AI-powered career prediction and skill gap analysis by Pathora AI.">
+
+    <title>Career Results | Pathora AI</title>
+
+    <!-- FIXED FLASK CSS PATH -->
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <!-- NAVIGATION -->
+
+    <nav class="navbar">
+
+        <a href="{{ url_for('home') }}" class="logo">
+            ✦ Pathora <span>AI</span>
+        </a>
+
+        <a href="{{ url_for('home') }}" class="nav-btn">
+            ← Try Again
+        </a>
+
+    </nav>
+
+
+    <!-- MAIN RESULT SECTION -->
+
+    <main class="result-section">
+
+        <div class="hero-badge">
+            ✧ YOUR AI CAREER ANALYSIS
+        </div>
+
+        <h1>
+            Your Recommended <span>Career</span>
+        </h1>
+
+        <p class="page-description">
+            Your career insights are ready. Explore your prediction,
+            strengths and opportunities for improvement.
+        </p>
+
+
+        <!-- PREDICTED CAREER -->
+
+        <section class="result-card main-result">
+
+            <div class="result-icon">✦</div>
+
+            <p class="muted result-label">
+                YOUR TOP PREDICTED CAREER
+            </p>
+
+            <h2>{{ career_info.title }}</h2>
+
+            <p class="career-description">
+                {{ career_info.description }}
+            </p>
+
+            <a href="{{ url_for('roadmap', career=prediction) }}"
+               class="primary-btn">
+
+                Explore Career Roadmap →
+
+            </a>
+
+        </section>
+
+
+        <!-- TOP 3 CAREER RECOMMENDATIONS -->
+
+        <section class="recommendations-section">
+
+            <div class="section-title">
+
+                <span class="section-tag">
+                    CAREER DISCOVERY
+                </span>
+
+                <h2 class="sub-heading">
+                    Top Career Recommendations
+                </h2>
+
+                <p>
+                    Explore the career categories suggested by your
+                    Machine Learning model.
+                </p>
+
+            </div>
+
+
+            <div class="recommendations-container">
+
+                {% if top_careers %}
+
+                    {% for career in top_careers %}
+
+                        <div class="career-row">
+
+                            <div class="career-info">
+
+                                <strong>
+                                    {{ career.name }}
+                                </strong>
+
+                                <span>
+                                    {{ "%.2f"|format(career.score) }}% model score
+                                </span>
+
+                            </div>
+
+                            <div class="progress">
+
+                                <div class="progress-fill"
+                                     data-score="{{ career.score }}">
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    {% endfor %}
+
+                {% else %}
+
+                    <div class="empty-state">
+                        No career recommendations available.
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+            <p class="score-note">
+                Note: Model scores are based on Decision Tree
+                prediction outputs and are not calibrated probabilities
+                or guaranteed career suitability percentages.
+            </p>
+
+        </section>
+
+
+        <!-- SMART SKILL GAP ANALYSIS -->
+
+        <section class="result-card skills-card">
+
+            <div class="section-title">
+
+                <span class="section-tag">
+                    PERSONALIZED SKILL INSIGHTS
+                </span>
+
+                <h2>Smart Skill Gap Analysis</h2>
+
+                <p>
+                    Understand your current skill levels and discover
+                    areas where you can improve.
+                </p>
+
+            </div>
+
+
+            <!-- OVERALL SKILL SCORE -->
+
+            <div class="average-score">
+
+                <div>
+
+                    <span>Overall Assessed Skill Score</span>
+
+                    <p>
+                        Based on your submitted skill inputs
+                    </p>
+
+                </div>
+
+                <strong>
+                    {{ skill_analysis.average_score }}%
+                </strong>
+
+            </div>
+
+            <div class="progress overall-progress">
+
+                <div class="progress-fill"
+                     data-score="{{ skill_analysis.average_score }}">
+                </div>
+
+            </div>
+
+
+            <!-- STRENGTHS -->
+
+            <div class="skill-category strengths-category">
+
+                <h3>
+                    <span class="category-icon">✦</span>
+                    Your Strengths
+                </h3>
+
+                <p class="category-description">
+                    Skills where your submitted scores are 70 or above.
+                </p>
+
+                {% if skill_analysis.strengths %}
+
+                    {% for skill in skill_analysis.strengths %}
+
+                        <div class="skill-item">
+
+                            <div class="skill-info">
+
+                                <strong>
+                                    {{ skill.name }}
+                                </strong>
+
+                                <span>
+                                    {{ skill.score }}%
+                                </span>
+
+                            </div>
+
+                            <div class="progress">
+
+                                <div class="progress-fill"
+                                     data-score="{{ skill.score }}">
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    {% endfor %}
+
+                {% else %}
+
+                    <div class="empty-state">
+                        Keep practising to develop your strengths.
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- AREAS TO IMPROVE -->
+
+            <div class="skill-category improvements-category">
+
+                <h3>
+                    <span class="category-icon">↗</span>
+                    Skills to Improve
+                </h3>
+
+                <p class="category-description">
+                    Focus on these areas to strengthen your career profile.
+                </p>
+
+                {% if skill_analysis.improvements %}
+
+                    {% for skill in skill_analysis.improvements %}
+
+                        <div class="improvement-item">
+
+                            <div class="skill-info">
+
+                                <strong>
+                                    {{ skill.name }}
+                                </strong>
+
+                                <span>
+                                    {{ skill.score }}%
+                                </span>
+
+                            </div>
+
+                            <div class="progress">
+
+                                <div class="progress-fill"
+                                     data-score="{{ skill.score }}">
+                                </div>
+
+                            </div>
+
+                            <div class="skill-suggestion">
+
+                                <span>Improvement Tip</span>
+
+                                <p>
+                                    {{ skill.suggestion }}
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    {% endfor %}
+
+                {% else %}
+
+                    <div class="empty-state">
+                        Great work! All assessed skills scored 70 or above.
+                        Continue developing your abilities.
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+        </section>
+
+
+        <!-- RECOMMENDED CAREER SKILLS -->
+
+        <section class="result-card skills-card">
+
+            <div class="section-title">
+
+                <span class="section-tag">
+                    CAREER DEVELOPMENT
+                </span>
+
+                <h2>Recommended Career Skills</h2>
+
+                <p>
+                    Develop these skills to prepare for your predicted career.
+                </p>
+
+            </div>
+
+            <div class="tags">
+
+                {% for skill in career_info.skills %}
+
+                    <span>{{ skill }}</span>
+
+                {% endfor %}
+
+            </div>
+
+
+            <!-- RECOMMENDED TOOLS -->
+
+            <h3 class="tools-heading">
+                Recommended Tools & Technologies
+            </h3>
+
+            <div class="tags">
+
+                {% for tool in career_info.tools %}
+
+                    <span>{{ tool }}</span>
+
+                {% endfor %}
+
+            </div>
+
+        </section>
+
+
+        <!-- CAREER ROADMAP CTA -->
+
+        <section class="roadmap-cta">
+
+            <div class="roadmap-icon">
+                ✧
+            </div>
+
+            <h2>
+                Ready to Build Your Future?
+            </h2>
+
+            <p>
+                Follow your personalized career learning roadmap
+                and take the next step towards your goals.
+            </p>
+
+            <a href="{{ url_for('roadmap', career=prediction) }}"
+               class="primary-btn">
+
+                View My Career Roadmap →
+
+            </a>
+
+        </section>
+
+
+        <!-- DISCLAIMER -->
+
+        <div class="disclaimer">
+
+            <strong>Important Note</strong>
+
+            <p>
+                Pathora AI provides educational career recommendations
+                based on a Machine Learning model. These results are
+                indicative only and should not be considered a
+                professional career assessment or a guarantee of
+                future success.
+            </p>
+
+        </div>
+
+
+        <!-- ACTION BUTTONS -->
+
+        <div class="result-actions">
+
+            <a href="{{ url_for('home') }}"
+               class="secondary-btn">
+                ← Back to Home
+            </a>
+
+            <a href="{{ url_for('dashboard') }}"
+               class="primary-btn">
+                View Analytics Dashboard →
+            </a>
+
+            <a href="{{ url_for('download_report') }}"
+               class="secondary-btn">
+                ↓ Download PDF Report
+            </a>
+
+        </div>
+
+    </main>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <a href="{{ url_for('home') }}" class="logo">
+            ✦ Pathora <span>AI</span>
+        </a>
+
+        <p>
+            Empowering Futures Through Artificial Intelligence.
+        </p>
+
+        <small>
+            © 2026 Pathora AI. Educational Project.
+        </small>
+
+    </footer>
+
+
+    <!-- FIXED FLASK JAVASCRIPT PATH -->
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+</html>
