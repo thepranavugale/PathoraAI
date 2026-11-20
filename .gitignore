@@ -18,10 +18,22 @@
 # .DS_Store
 
 
+# venv/
+# .venv/
+# __pycache__/
+# *.pyc
+# .vercel/
+# .env
+# .DS_Store
+
+
+
 venv/
 .venv/
 __pycache__/
-*.pyc
-.vercel/
+*.py[cod]
 .env
+.env.*
+!.env.example
+.pytest_cache/
 .DS_Store
