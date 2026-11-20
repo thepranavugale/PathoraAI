@@ -1,16 +1,10 @@
 
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "app.py",
-      "use": "@vercel/python"
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "flask",
+  "functions": {
+    "app.py": {
+      "includeFiles": "{models/**,templates/**,utils/**}"
     }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "app.py"
-    }
-  ]
+  }
 }
